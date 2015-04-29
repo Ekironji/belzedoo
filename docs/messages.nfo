@@ -1,0 +1,9 @@
+{"method":"pinMode","pin":13,"value":1} //out
+
+{"method":"digitalWrite","pin":13,"value":1} //high
+{"method":"digitalRead","pin":13}  -> {"success":true,"value":1}
+
+{"method":"analogWrite","pin":13,"value":1}
+{"method":"analogRead","pin":13}  -> {"success":true,"value":1}
+
+{"method":"map","value":13,"fromLow":1,"fromHigh":100,"toLow":10,"toHigh":20} -> {"success":true,"value":42}
