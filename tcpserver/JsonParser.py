@@ -13,10 +13,18 @@ class Parser:
 
    ser = None
    ans = ''
+    
+   def printArray(self, array):
+      ans = ""
+      for val in array:
+         ans += str(val) + " "
+      return ans  
 
    def writeToSerial(self, dataToSend):
-      print "SERIAL> " + dataToSend
-      return dataToSend
+      print "(JsonParser) data sent to SAM3X: " + dataToSend
+      print self.printArray(self.pinMode)
+      print self.printArray(self.value)
+      
       try:
          if input == 'exit':
             ser.close()
@@ -29,7 +37,7 @@ class Parser:
                out += ser.read(1)
       except:
 		  exit()		           
-      print "SERIAL> " + out
+      print "(JsonParser) Response from SAM3X: " + out
       
    def __init__(self):
       self.pinMode = [\
@@ -53,6 +61,7 @@ class Parser:
             port='/dev/ttymxc3',
             baudrate=115200
          )
+         print "(JsonParser) Serial ttymxc3 connected at 115200" 
       except:
 		  print "Serial connection fail!"
 		  exit()
@@ -67,9 +76,9 @@ class Parser:
       if decoded['method'] == "pinMode":
          if int(decoded['pin']) >= 0 and int(decoded['pin']) < 55:
             if int(decoded['value']) == 0:
-               self.pinMode[int(decoded['value'])] = INPUT;
+               self.pinMode[int(decoded['pin'])] = INPUT;
             else:
-               self.pinMode[int(decoded['value'])] = OUTPUT;
+               self.pinMode[int(decoded['pin'])] = OUTPUT;
             ans = self.writeToSerial(data)
          else:
             print >>sys.stderr, "Error: Invalid pin number"
@@ -77,9 +86,9 @@ class Parser:
       elif decoded['method'] == "digitalWrite":
          if int(decoded['pin']) >= 0 and int(decoded['pin']) < 55:
             if int(decoded['value']) == 0:
-               self.pinMode[int(decoded['value'])] = LOW;
+               self.value[int(decoded['value'])] = LOW;
             else:
-               self.pinMode[int(decoded['value'])] = HIGH;
+               self.value[int(decoded['value'])] = HIGH;
             ans = self.writeToSerial(data)
          else:
             print >>sys.stderr, "Error: Invalid pin number"
@@ -99,7 +108,7 @@ class Parser:
 
       elif decoded['method'] == "analogRead":
          if int(decoded['pin']) >= 0 and int(decoded['pin']) < 55:         
-            self.writeToSerial(data)
+            ans = self.writeToSerial(data)
          else:
             print >>sys.stderr, "Error: Invalid pin number"
 
@@ -111,5 +120,7 @@ class Parser:
       
       ### SCRIVI IN SERIALE E ASPETTA IL RISULTATO
       
-      print "BAUUUUUUU" + ans   
-      return ans   
+      print "(JsonParser) risposta alla domanda" + ans   
+      return ans
+      
+
