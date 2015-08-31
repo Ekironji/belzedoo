@@ -84,9 +84,9 @@ class Parser:
             
       if decoded['method'] == "pinMode":
          if int(decoded['pin']) >= 0 and int(decoded['pin']) < 55:
-            if int(decoded['value']) == 0:
+            if int(decoded['value']) == 0 or decoded['value'] == 'INPUT':
                self.pinMode[int(decoded['pin'])] = 0;
-            else:
+            elif int(decoded['value']) == 1 or decoded['value'] == 'OUTPUT':
                self.pinMode[int(decoded['pin'])] = 1;
             ans = self.writeToSerial(data)
          else:
@@ -94,9 +94,9 @@ class Parser:
 
       elif decoded['method'] == "digitalWrite":
          if int(decoded['pin']) >= 0 and int(decoded['pin']) < 55:
-            if int(decoded['value']) == 0:
+            if int(decoded['value']) == 0 or decoded['value'] == 'LOW':
                self.value[int(decoded['value'])] = 0;
-            else:
+            elif int(decoded['value']) == 1 or decoded['value'] == 'HIGH':
                self.value[int(decoded['value'])] = 1;
             ans = self.writeToSerial(data)
          else:

@@ -56,20 +56,30 @@ def main(argv):
          command = 'sensor'
          
    if command == 'method':
-      if method == 'pinMode' or method == 'digitalWrite' or method == 'analogWrite':
+      if method == 'pinMode':
          if value == 'INPUT':
-            value = 0
+            value = "0"
          elif value == 'OUTPUT':
-            value = 1	    
+            value = "1"	  
          data = {'id':0,'method':method,'pin':int(pin),'value':int(value)}
+         
       elif method == 'digitalWrite' or method == 'analogWrite':
-		 data = {'id':0,'method':method,'pin':int(pin),'value':int(value)}
+         print value
+         if value == 'LOW':
+            value = "0"
+         elif value == 'HIGH':
+            value = "1"	  
+         data = {'id':0,'method':method,'pin':int(pin),'value':int(value)}
+      
+      elif method == 'analogRead':
+         data = {'id':0,'method':method,'pin':pin}    
+         
       elif method == 'hi' or method == 'disconnect':
          data = {'id':0,'method':method} 
+         
       elif method == 'delay':
          data = {'id':0,'method':method,'value':value} 
-      elif method == 'analogRead':
-         data = {'id':0,'method':method,'pin':pin} 
+         
       else:
          printHelp()
          sys.exit(2)
@@ -87,7 +97,7 @@ def main(argv):
       printHelp() 
       sys.exit(2)
    else:
-      print '(belzedootest.py) String to be send: ', data_string
+      print '(belzedootest.py)   tcp send: ', data_string
 
    # connect client
    
@@ -102,7 +112,7 @@ def main(argv):
       s.close()
       print "INTERRUZIONE"  
 
-   print "received data:", data
+   print "(belzedootest.py) tcp response:", data
 
 if __name__ == "__main__":
    main(sys.argv[1:])
