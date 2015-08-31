@@ -61,22 +61,22 @@ def main(argv):
             value = 0
          elif value == 'OUTPUT':
             value = 1	    
-         data = {'method':method,'pin':pin,'value':value}
+         data = {'id':0,'method':method,'pin':int(pin),'value':int(value)}
       elif method == 'digitalWrite' or method == 'analogWrite':
-		 data = {'method':method,'pin':pin,'value':value}
+		 data = {'id':0,'method':method,'pin':int(pin),'value':int(value)}
       elif method == 'hi' or method == 'disconnect':
-         data = {'method':method} 
+         data = {'id':0,'method':method} 
       elif method == 'delay':
-         data = {'method':method,'value':value} 
+         data = {'id':0,'method':method,'value':value} 
       elif method == 'analogRead':
-         data = {'method':method,'pin':pin} 
+         data = {'id':0,'method':method,'pin':pin} 
       else:
          printHelp()
          sys.exit(2)
     
    elif command == 'sensor': 
       if sensor != '':
-         data = {'sensor':sensor,'value':value}
+         data = {'id':0,'sensor':sensor,'value':value}
       else:
          printHelp()
          sys.exit(2)     
@@ -87,7 +87,7 @@ def main(argv):
       printHelp() 
       sys.exit(2)
    else:
-      print 'ENCODED:', data_string
+      print '(belzedootest.py) String to be send: ', data_string
 
    # connect client
    

@@ -31,7 +31,7 @@ while True:
         # Receive the data in small chunks and retransmit it
         while True:
             incoming_data = connection.recv(128)
-            print >>sys.stderr, '(TCPServer.py) received string "%s"' % incoming_data
+            print >>sys.stderr, '(TCPServer.py) received string from tcp client "%s"' % incoming_data
             if incoming_data:
 				try:
 					ans = core.processCommand(incoming_data) 

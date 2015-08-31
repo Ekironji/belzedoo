@@ -1,18 +1,18 @@
 #define SERIAL1_DEBUG
 
-#include <adk.h>
+//#include <adk.h>
 #include <ArduinoJson.h>
 #include <dht11.h>
 
-char descriptionName[] = "UDOOAppInventor";
-char modelName[] = "AppInventor"; // Need to be the same defined in the Android App
-char manufacturerName[] = "UDOO"; // Need to be the same defined in the Android App
-char versionNumber[] = "1.0"; // Need to be the same defined in the Android App
-char serialNumber[] = "1";
-char url[] = "http://appinventor.udoo.org"; // If there isn't any compatible app installed, Android suggest to visit this url
+//char descriptionName[] = "UDOOAppInventor";
+//char modelName[] = "AppInventor"; // Need to be the same defined in the Android App
+//char manufacturerName[] = "UDOO"; // Need to be the same defined in the Android App
+//char versionNumber[] = "1.0"; // Need to be the same defined in the Android App
+//char serialNumber[] = "1";
+//char url[] = "http://appinventor.udoo.org"; // If there isn't any compatible app installed, Android suggest to visit this url
 
-USBHost Usb;
-ADK adk(&Usb, manufacturerName, modelName, descriptionName, versionNumber, url, serialNumber);
+//USBHost Usb;
+//ADK adk(&Usb, manufacturerName, modelName, descriptionName, versionNumber, url, serialNumber);
 
 #define RCVSIZE 128
 uint8_t buf[RCVSIZE];
@@ -35,24 +35,25 @@ void setup()
   Serial1.begin(115200);
   Serial1.println("UDOO debug serial started!");
 #endif
-  cpu_irq_enable();
+  //cpu_irq_enable();
+  
+  Serial.println("UDOO  serial started!");
 }
 
-void loop()
-{
-  Usb.Task();
-   
-  if (adk.isReady()) {
-    for (int i=0; i<RCVSIZE; i++) {
-      buf[i] = '\0';
-    }
-    
-    adk.read(&bytesRead, RCVSIZE, buf);
-    if (bytesRead > 0) {
-      activeConnection = CONNECTION_ADK;
-      processCommand((char*)buf);
-    }
-  }  
+void loop(){
+//  Usb.Task();
+//   
+//  if (adk.isReady()) {
+//    for (int i=0; i<RCVSIZE; i++) {
+//      buf[i] = '\0';
+//    }
+//    
+//    adk.read(&bytesRead, RCVSIZE, buf);
+//    if (bytesRead > 0) {
+//      activeConnection = CONNECTION_ADK;
+//      processCommand((char*)buf);
+//    }
+//  }  
 
   if (Serial.available() > 0){
     char readFromSerial[100];
@@ -91,9 +92,9 @@ void loop()
 void processCommand(char* readBuffer)
 {
 #ifdef SERIAL1_DEBUG
-  Serial1.print("CMD: ");
-  Serial1.println(readBuffer);
-  Serial1.flush();
+  Serial.print("CMD: ");
+  Serial.println(readBuffer);
+  Serial.flush();
 #endif
 
   StaticJsonBuffer<2000> jsonBuffer;
@@ -277,7 +278,7 @@ void reply(const char* response, int len)
   switch (activeConnection)
   {
     case CONNECTION_ADK:
-      adk.write(len, (uint8_t*)response);
+      //adk.write(len, (uint8_t*)response);
       break;
 
     case CONNECTION_SERIAL:
